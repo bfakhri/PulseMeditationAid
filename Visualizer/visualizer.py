@@ -81,7 +81,6 @@ try:
             line = arduino.readline().decode('utf-8').strip()
             if line == 'BEAT':
                 beat_times.append(current_time)
-                print('Received beat at {0:2.1f}s with {1} beats'.format(current_time, len(beat_times)))
                 # Increment the beat
                 breath_beat += 1
                 # Reset the breath beat 
@@ -90,7 +89,6 @@ try:
 
                 # Calculate angles for the beat markers
                 beat_marker_angles = [2 * np.pi * (i / beats_per_breath) for i in range(breath_beat)]
-                print('Angles: ', beat_marker_angles)
 
                 # Remove the earliest beat if the circular array is full
                 if len(beat_times) > beat_record_len:
@@ -116,12 +114,7 @@ try:
             min_prog = max(0, breath_beat-1)/beats_per_breath
             max_prog = (breath_beat)/beats_per_breath
             progress = ((current_time - beat_times[-1]) / (beat_period)) * (max_prog - min_prog) + min_prog
-            #print(min_prog, max_prog, '\tProgress: ', progress)
             update_progress(progress, beat_marker_angles)
-
-            
-
-
 
 except KeyboardInterrupt:
     print("Exiting program.")
